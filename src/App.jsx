@@ -1,61 +1,43 @@
 import React, { useState } from 'react';
 
-function App() {
-  const [items, setItems] = useState([]); 
-  const [newItemName, setNewItemName] = useState("");
-  const [newItemPrice, setNewItemPrice] = useState(0);
+// principle
+// time
+// annual interest rate
+// number of times compounded per time
+const compound = (p, t = 1, r = .08, n = 12) => {
+  return p * (Math.pow((1 + (r / n)), (n * t)));
+};
 
-  const calculateTotal = () => {
-    return items.reduce((total, item) => {
-      total = item.price + total;
-      return total;
-    }, 0);
-  }
+function NameTag(props) {
+  return (
+    <h2>{props.name}</h2>
+  )
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  
-    setItems([...items, {
-      name: newItemName,
-      price: newItemPrice 
-    }])
+function Compounder({principle}) {
+  const clickHandler = () => {
+    console.log(compound(principle));
   }
 
   return (
-    <div className="App">
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name
-          <input type="text" onChange={(e) => setNewItemName(e.target.value)} /> 
-        </label>
-        
-        <label>
-          Price
-          <input type="text" onChange={(e) => setNewItemPrice(e.target.value)} />
-        </label>
-
-        <button>Add Item</button>
-      </form>
-      
-      <ul>
-        {items.map(({ name, price }) => {
-          return (
-            <li>
-              <span>
-                {name}
-              </span>
-
-              <span>
-                {price}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-
-      Total: {calculateTotal()}
+    <div>
+      <span>
+        {principle}
+      </span>
+      <br/>
+      <button onClick={clickHandler}>
+        Compound
+      </button>
     </div>
+  );
+}
+
+function App () {
+  const someName = "Buford";
+
+  return (
+    // <NameTag name={someName} />
+    <Compounder principle={3} />
   )
 }
 

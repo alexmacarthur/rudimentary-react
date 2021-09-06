@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 
-// principle
-// time
-// annual interest rate
-// number of times compounded per time
-const compound = (p, t = 1, r = .08, n = 12) => {
-  return p * (Math.pow((1 + (r / n)), (n * t)));
+const compound = ({principle, time, rate, number}) => {
+  return principle * (Math.pow((1 + (rate / number)), (number * time)));
 };
 
 function NameTag(props) {
@@ -14,15 +10,23 @@ function NameTag(props) {
   )
 }
 
-function Compounder({principle}) {
+function Compounder({ principle, rate = .08 }) {
+  const [calculation, setCalculation] = useState(principle);
+
   const clickHandler = () => {
-    console.log(compound(principle));
+    const newValue = compound({
+      principle: calculation,
+      time: 1,
+      rate,
+      number: 12
+    });
+    setCalculation(newValue);
   }
 
   return (
     <div>
       <span>
-        {principle}
+        {calculation}
       </span>
       <br/>
       <button onClick={clickHandler}>
@@ -37,7 +41,7 @@ function App () {
 
   return (
     // <NameTag name={someName} />
-    <Compounder principle={3} />
+    <Compounder principle={3} rate={1.12} />
   )
 }
 
